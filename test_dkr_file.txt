@@ -1,0 +1,9 @@
+FROM mvn3-java8 AS build
+WORKDIR /app
+COPY . .    # here all src and java files are copied
+RUN mvn clean install -f pom.xml
+
+
+FROM tomcat:8 
+COPY from==build /app/target/test.war /usr/local/tomcat/webapps/
+ENTRYPOINT ['/usr/local/bin/starttomcat.sh']
